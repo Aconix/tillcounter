@@ -17,6 +17,11 @@
             /* this affects the margin in the printer settings */
         }
     </style>
+    <script>
+        if (typeof navigator.serviceWorker !== 'undefined') {
+          navigator.serviceWorker.register('sw.js')
+        }
+      </script>
 </head>
 
 <body>
