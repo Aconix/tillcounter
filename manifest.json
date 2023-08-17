@@ -19,7 +19,13 @@
       "type": "image/x-icon"
     }
   ],
-  "shortcuts": [],
+  "shortcuts": [
+    {
+      "name": "Till Counter",
+      "url": "/",
+      "description": "Access the Till Counter"
+    }
+  ],
   "edge_side_panel": {
     "preferred_width": 0
   }
