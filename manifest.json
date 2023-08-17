@@ -20,7 +20,8 @@
     },
     {
       "src": "AppImages/ios/192.png",
-      "sizes": "144x144"
+      "sizes": "144x144",
+      "purpose": "any"
     },
     {
       "src": "AppImages/ios/512.png",
