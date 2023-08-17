@@ -16,10 +16,11 @@
             /* this affects the margin in the printer settings */
         }
     </style>
+    <meta name="theme-color" content="#FFFFFF"/> <!--This is used for the progressive web app theme-->
 </head>
 
 <body>
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json"> <!--This is grabbing the manifest file for progressive web apps.-->
     <div class="sticky-sm-top d-print-none">
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
@@ -459,7 +460,7 @@
         });
     </script>
     <script>
-        if (typeof navigator.serviceWorker !== 'undefined') {  // Registers a service worker
+        if (typeof navigator.serviceWorker !== 'undefined') {  // Registers a service worker for the progressive web app.
           navigator.serviceWorker.register('sw.js')
         }
     </script>
