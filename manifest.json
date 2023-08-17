@@ -7,7 +7,7 @@
   "orientation": "any",
   "scope": "/",
   "short_name": "Till Counter",
-  "start_url": "/tillcounter",
+  "start_url": "/tillcounter/",
   "theme_color": "#ffffff",
   "categories": [
     "utilities"
