@@ -1,0 +1,26 @@
+{
+  "background_color": "#ffffff",
+  "description": "An easy way to count and balance a cash till when working in retail.",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Till Counter",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Till Counter",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "categories": [
+    "utilities"
+  ],
+  "screenshots": [],
+  "icons": [
+    {
+      "src": "images/favicon.ico",
+      "type": "image/x-icon"
+    }
+  ],
+  "shortcuts": [],
+  "edge_side_panel": {
+    "preferred_width": 0
+  }
+}
