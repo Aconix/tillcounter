@@ -19,6 +19,10 @@
       "sizes": "192x192"
     },
     {
+      "src": "AppImages/ios/192.png",
+      "sizes": "144x144"
+    },
+    {
       "src": "AppImages/ios/512.png",
       "sizes": "512x512"
     },
