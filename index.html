@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <link rel="manifest" href="manifest.json">
     <style type="text/css" media="print">
         @page {
             size: auto;
@@ -17,14 +16,10 @@
             /* this affects the margin in the printer settings */
         }
     </style>
-    <script>
-        if (typeof navigator.serviceWorker !== 'undefined') {
-          navigator.serviceWorker.register('sw.js')
-        }
-      </script>
 </head>
 
 <body>
+    <link rel="manifest" href="manifest.json">
     <div class="sticky-sm-top d-print-none">
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
@@ -462,6 +457,11 @@
         document.addEventListener('mouseup', function (event) { // Runs the function within the program when a button is released.
             execute()
         });
+    </script>
+    <script>
+        if (typeof navigator.serviceWorker !== 'undefined') {  // Registers a service worker
+          navigator.serviceWorker.register('sw.js')
+        }
     </script>
 </body>
 
