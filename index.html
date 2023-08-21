@@ -18,7 +18,7 @@
             /* this affects the margin in the printer settings */
         }
     </style>
-    <meta name="theme-color" content="#FFFFFF"/> <!--This is used for the progressive web app theme-->
+    <meta name="theme-color" content="#FFFFFF" /> <!--This is used for the progressive web app theme-->
 </head>
 
 <body>
@@ -354,6 +354,7 @@
         <div class="d-print-none">
             <h3>Over or under: <span class="badge bg-primary" id="tableoverunder">$0.00</span></h3>
             <button class="btn btn-primary" type="submit" onclick="print()">Print</button>
+            <button class="btn btn-danger" type="submit" onclick="refreshPage()">Reset</button>
         </div>
         <!--
             <button class="btn btn-primary" type="submit" onclick="buttona()">Run dat money</button>
@@ -451,6 +452,12 @@
             return total.toFixed(2);
         }
 
+        function refreshPage() {
+            if (confirm("Are you sure you want to reset the grid?") == true) {
+                location.reload()
+            }
+        };
+
         reset()
 
         document.addEventListener('keyup', function (event) { // Runs the function within the program when a button is released.
@@ -462,7 +469,7 @@
     </script>
     <script>
         if (typeof navigator.serviceWorker !== 'undefined') {  // Registers a service worker for the progressive web app.
-          navigator.serviceWorker.register('sw.js')
+            navigator.serviceWorker.register('sw.js')
         }
     </script>
 </body>
