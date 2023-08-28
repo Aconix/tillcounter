@@ -464,44 +464,48 @@
         }
 
         function buttonAutoCalculate() {
-            console.log(takeout)
             calculatedArray = autoCalculate(one_input, takeout);
             console.log("fuck")
-            console.log(calculatedArray)
-            console.log(sum(calculatedArray))
             for (let i = 0; i < 12; i++) {
                 placeValueInTextBox("twoinput", ids[i], calculatedArray[i])
             };
             execute()
         };
 
-        function autoCalculate(one_input, totakeout) {
-            console.log(totakeout);
-            updatedInputArray = one_input;
-            var sumArray = sum(multiplyInputByValues(updatedInputArray));
-            console.log(sumArray);
+        function autoCalculate(inputArray, totakeout) {
+            var updateArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            var sumArray = sum(multiplyInputByValues(updateArray));
+            console.log(totakeout)
 
-            updatedInputArray[11] = 0
-
-            for (let i = 10; i >= 0; i--) { // The reason we start from 10, is so we ignore the rolls, as they cannot be separated easily in physical practice. We just want to deduct coins and notes.
+            for (var i = 10; i >= 0; --i) {
                 do {
-                    if (sumArray - currency_values[i] < totakeout) {
-                        break
-                    };
-                    updatedInputArray[i] = updatedInputArray[i] - 1
-                    sumArray = sum(multiplyInputByValues(updatedInputArray))
-                    console.log(updatedInputArray)
-                    console.log(sumArray)
+                    if (parseFloat(sumArray) + parseFloat(currency_values[i]) > parseFloat(totakeout)) {
+                        break;
+                    }
+                    updateArray[i] = updateArray[i] + 1;
+                    sumArray = sum(multiplyInputByValues(updateArray));
                 }
-                while (updatedInputArray[i] > 0);
+                while (updateArray[i] < inputArray[i]);
+
+            //for (let i = 10; i >= 0; i--) { // The reason we start from 10, is so we ignore the rolls, as they cannot be separated easily in physical practice. We just want to deduct coins and notes.
+            //    do {
+            //        if (sumArray - currency_values[i] < totakeout) {
+            //            break
+            //        };
+            //        updatedInputArray[i] = updatedInputArray[i] - 1
+            //        sumArray = sum(multiplyInputByValues(updatedInputArray))
+            //        console.log(updatedInputArray)
+            //        console.log(sumArray)
+            //    }
+            //    while (updatedInputArray[i] > 0);
             }
-            return updatedInputArray
+            return updateArray;
         };
 
-        function multiplyInputByValues(input) {
+        function multiplyInputByValues(array) {
             var result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             for (let i = 0; i < 12; i++) {
-                calculated_value = one_input[i] * currency_values[i];
+                calculated_value = array[i] * currency_values[i];
                 result[i] = calculated_value.toFixed(2);
             };
             return result
