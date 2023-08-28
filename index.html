@@ -159,10 +159,18 @@
                     <h3>Total: <span class="badge bg-primary" id="onetotal">$0.00</span></h3>
                     <h6>Amount to Take Out: <span class="badge bg-primary" id="onetakeout">$0.00</span></h6>
                 </div>
+
                 <div class="col-md">
                     <h4>Step 2</h4>
-                    <h6>Take out the required money until the amount is 0.</h6>
-                    <div class="input-group mb-3">
+                    <div class="row">
+                        <div class="col-md">
+                            <h6>Take out the required money until the amount is 0.</h6>
+                        </div>
+                        <div class="col-md">
+                            <button class="btn btn-danger" type="submit" onclick="buttonAutoCalculate()">Quick Calculate</button>
+                        </div>
+                    </div>
+                    <div class="input-group my-3">
                         <span class="input-group-text">5c</span>
                         <input type="number" pattern="\d*" class="form-control" id="twoinput00005"
                             aria-label="Dollar amount (with dot and two decimal places)"></type=>
@@ -355,7 +363,6 @@
             <h3>Over or under: <span class="badge bg-primary" id="tableoverunder">$0.00</span></h3>
             <button class="btn btn-primary" type="submit" onclick="print()">Print</button>
             <button class="btn btn-danger" type="submit" onclick="refreshPage()">Reset</button>
-            <button class="btn btn-danger" type="submit" onclick="buttonAutoCalculate()">Auto Calculate</button>
         </div>
         <!--
             <button class="btn btn-primary" type="submit" onclick="buttona()">Run dat money</button>
@@ -436,8 +443,9 @@
             console.log(cashier_report);
             placeValueOnScreen("", "onetotal", "$" + sum(one_result));
             takeout = sum(one_result) - required_float;
+            takeout = takeout.toFixed(2)
             var totaltakenout = sum(two_result_negative)
-            placeValueOnScreen("", "onetakeout", "$" + takeout.toFixed(2));
+            placeValueOnScreen("", "onetakeout", "$" + takeout);
             placeValueOnScreen("", "twotakeout", "$" + (takeout - totaltakenout).toFixed(2));
             console.log(two_result_positive)
             for (let i = 0; i < 12; i++) {
@@ -479,25 +487,15 @@
 
             for (var i = 10; i >= 0; --i) {
                 do {
-                    if (parseFloat(sumArray) + parseFloat(currency_values[i]) > parseFloat(totakeout)) {
+                    console.log((parseFloat(sumArray) + parseFloat(currency_values[i])) + ">" + parseFloat(totakeout))
+                    console.log(inputArray[i] + " > 0")
+                    if (parseFloat(sumArray) + parseFloat(currency_values[i]) > parseFloat(totakeout) || !(inputArray[i] > 0)) {
                         break;
                     }
                     updateArray[i] = updateArray[i] + 1;
                     sumArray = sum(multiplyInputByValues(updateArray));
                 }
                 while (updateArray[i] < inputArray[i]);
-
-            //for (let i = 10; i >= 0; i--) { // The reason we start from 10, is so we ignore the rolls, as they cannot be separated easily in physical practice. We just want to deduct coins and notes.
-            //    do {
-            //        if (sumArray - currency_values[i] < totakeout) {
-            //            break
-            //        };
-            //        updatedInputArray[i] = updatedInputArray[i] - 1
-            //        sumArray = sum(multiplyInputByValues(updatedInputArray))
-            //        console.log(updatedInputArray)
-            //        console.log(sumArray)
-            //    }
-            //    while (updatedInputArray[i] > 0);
             }
             return updateArray;
         };
