@@ -159,10 +159,18 @@
                     <h3>Total: <span class="badge bg-primary" id="onetotal">$0.00</span></h3>
                     <h6>Amount to Take Out: <span class="badge bg-primary" id="onetakeout">$0.00</span></h6>
                 </div>
+
                 <div class="col-md">
                     <h4>Step 2</h4>
-                    <h6>Take out the required money until the amount is 0.</h6>
-                    <div class="input-group mb-3">
+                    <div class="row">
+                        <div class="col-md">
+                            <h6>Take out the required money until the amount is 0.</h6>
+                        </div>
+                        <div class="col-md">
+                            <button class="btn btn-danger" type="submit" onclick="buttonAutoCalculate()">Quick Calculate</button>
+                        </div>
+                    </div>
+                    <div class="input-group my-3">
                         <span class="input-group-text">5c</span>
                         <input type="number" pattern="\d*" class="form-control" id="twoinput00005"
                             aria-label="Dollar amount (with dot and two decimal places)"></type=>
@@ -371,8 +379,9 @@
         var two_input = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  // This is where the input of step 2 is stored.
         var two_result_negative = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // This stores the 'negative' values, so they can be subtracted from the original amount (one_result). They aren't actually stored as negatives.
         var two_result_positive = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // This stores one_result - two_result_negative, which gives us our modified score.
-        var currency_values = [0.05, 0.10, 0.20, 0.50, 1, 2, 5, 10, 20, 50, 100, 1, 0];
+        var currency_values = [0.05, 0.10, 0.20, 0.50, 1, 2, 5, 10, 20, 50, 100, 1];
         var ids = ["00005", "00010", "00020", "00050", "00100", "00200", "00500", "01000", "02000", "05000", "10000", "rolls"] // These are the codes that are used by the HTML elements, so they can be updated accordingly using for loops..
+        var takeout = 0; // This value is how much money needs to be taken out before the till can equal 0
         function reset() {
             var one_input = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             var one_result = [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00];
@@ -383,17 +392,23 @@
 
         function storeInputValues() {
             var input_box = document.getElementById("floatending");
-            required_float = input_box.value
+            required_float = input_box.value // This is grabbing the value that the till should end with.
 
             var input_box = document.getElementById("cashierreport");
-            cashier_report = input_box.value
+            cashier_report = input_box.value // This is grabbing the value that the profits SHOULD BE. This value is only used when calculating if the profits are over or under the expected values.
 
             for (let i = 0; i < 12; i++) {
                 let input_box = document.getElementById("oneinput" + ids[i]);
-                one_input[i] = input_box.value
+                if (!(input_box.value >= 0)) {
+                    input_box.value = "0"
+                }
+                one_input[i] = input_box.value // This section is taking all of the inputs in step 1 and placing them in the array for calculation in calculateAndUpdateScreenElements()
             };
             for (let i = 0; i < 12; i++) {
                 let input_box = document.getElementById("twoinput" + ids[i]);
+                if (!(input_box.value >= 0)) {
+                    input_box.value = "0"
+                }
                 two_input[i] = input_box.value
             };
             //alert("Placed Values.")
@@ -404,8 +419,12 @@
             span.textContent = item;
         }
 
+        function placeValueInTextBox(tag, id, item) { // In this code, a tag is defined as the letters before the numeric ID in the html code. e.g. "one00010"
+            let input_box = document.getElementById(tag + id);
+            input_box.value = item
+        }
 
-        function calculateAndUpdateAllScreenElements() {  // Takes values in arrays and performs the required calculations. Then it places the value on screen.
+        function calculateAndUpdateAllScreenElements() {  // Takes values in arrays and performs the required calculations. Then it places the value on screen. (FYI, the reason these steps are combined is to save processing power from running a loop multiple times if we separated it.)
             console.log(one_input);
             for (let i = 0; i < 12; i++) { // This for loop calculates the amount of money and places it into values on screen in Step 1 & Values in Step 2.
                 calculated_value = one_input[i] * currency_values[i]; // For each currency in step 1, the amount of coins / notes are multiplied by the value of the currency, giving the full amount of that currency. 
@@ -423,9 +442,10 @@
             console.log(one_result);
             console.log(cashier_report);
             placeValueOnScreen("", "onetotal", "$" + sum(one_result));
-            var takeout = sum(one_result) - required_float;
+            takeout = sum(one_result) - required_float;
+            takeout = takeout.toFixed(2)
             var totaltakenout = sum(two_result_negative)
-            placeValueOnScreen("", "onetakeout", "$" + takeout.toFixed(2));
+            placeValueOnScreen("", "onetakeout", "$" + takeout);
             placeValueOnScreen("", "twotakeout", "$" + (takeout - totaltakenout).toFixed(2));
             console.log(two_result_positive)
             for (let i = 0; i < 12; i++) {
@@ -447,9 +467,46 @@
             total = 0.00
             for (let i = 0; i < array.length; i++) {
                 total += parseFloat(array[i])
-                print
             };
             return total.toFixed(2);
+        }
+
+        function buttonAutoCalculate() {
+            calculatedArray = autoCalculate(one_input, takeout);
+            console.log("fuck")
+            for (let i = 0; i < 12; i++) {
+                placeValueInTextBox("twoinput", ids[i], calculatedArray[i])
+            };
+            execute()
+        };
+
+        function autoCalculate(inputArray, totakeout) {
+            var updateArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            var sumArray = sum(multiplyInputByValues(updateArray));
+            console.log(totakeout)
+
+            for (var i = 10; i >= 0; --i) {
+                do {
+                    console.log((parseFloat(sumArray) + parseFloat(currency_values[i])) + ">" + parseFloat(totakeout))
+                    console.log(inputArray[i] + " > 0")
+                    if (parseFloat(sumArray) + parseFloat(currency_values[i]) > parseFloat(totakeout) || !(inputArray[i] > 0)) {
+                        break;
+                    }
+                    updateArray[i] = updateArray[i] + 1;
+                    sumArray = sum(multiplyInputByValues(updateArray));
+                }
+                while (updateArray[i] < inputArray[i]);
+            }
+            return updateArray;
+        };
+
+        function multiplyInputByValues(array) {
+            var result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            for (let i = 0; i < 12; i++) {
+                calculated_value = array[i] * currency_values[i];
+                result[i] = calculated_value.toFixed(2);
+            };
+            return result
         }
 
         function refreshPage() {
