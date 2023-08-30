@@ -363,6 +363,7 @@
             <h3>Over or under: <span class="badge bg-primary" id="tableoverunder">$0.00</span></h3>
             <button class="btn btn-primary" type="submit" onclick="print()">Print</button>
             <button class="btn btn-danger" type="submit" onclick="refreshPage()">Reset</button>
+            <button class="btn btn-secondary" type="submit" onclick="execute()">Update On-Screen Elements</button>
         </div>
         <!--
             <button class="btn btn-primary" type="submit" onclick="buttona()">Run dat money</button>
@@ -516,6 +517,7 @@
         };
 
         reset()
+        execute()
 
         document.addEventListener('keyup', function (event) { // Runs the function within the program when a button is released.
             execute()
