@@ -470,7 +470,6 @@
 
         function buttonAutoCalculate() {
             calculatedArray = autoCalculate(one_input, takeout);
-            console.log("fuck")
             for (let i = 0; i < 12; i++) {
                 placeValueInTextBox("twoinput", ids[i], calculatedArray[i])
             };
@@ -484,8 +483,6 @@
 
             for (var i = 10; i >= 0; --i) {
                 do {
-                    console.log((parseFloat(sumArray) + parseFloat(currency_values[i])).toFixed(2) + ">" + parseFloat(totakeout))
-                    console.log(inputArray[i] + " > 0")
                     if ((parseFloat(sumArray) + parseFloat(currency_values[i])).toFixed(2) > parseFloat(totakeout) || !(inputArray[i] > 0)) {
                         break;
                     }
