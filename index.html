@@ -21,7 +21,7 @@
     <meta name="theme-color" content="#FFFFFF" /> <!--This is used for the progressive web app theme-->
 </head>
 
-<body>
+<body data-bs-theme="auto">
     <div class="sticky-sm-top d-print-none">
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
@@ -426,7 +426,6 @@
         }
 
         function calculateAndUpdateAllScreenElements() {  // Takes values in arrays and performs the required calculations. Then it places the value on screen. (FYI, the reason these steps are combined is to save processing power from running a loop multiple times if we separated it.)
-            console.log(one_input);
             for (let i = 0; i < 12; i++) { // This for loop calculates the amount of money and places it into values on screen in Step 1 & Values in Step 2.
                 calculated_value = one_input[i] * currency_values[i]; // For each currency in step 1, the amount of coins / notes are multiplied by the value of the currency, giving the full amount of that currency. 
                 one_result[i] = calculated_value.toFixed(2);
@@ -440,15 +439,12 @@
                 two_result_positive[i] = calculated_value.toFixed(2)
                 placeValueOnScreen("twob", ids[i], one_input[i] - two_input[i]);
             }
-            console.log(one_result);
-            console.log(cashier_report);
             placeValueOnScreen("", "onetotal", "$" + sum(one_result));
             takeout = sum(one_result) - required_float;
             takeout = takeout.toFixed(2)
             var totaltakenout = sum(two_result_negative)
             placeValueOnScreen("", "onetakeout", "$" + takeout);
             placeValueOnScreen("", "twotakeout", "$" + (takeout - totaltakenout).toFixed(2));
-            console.log(two_result_positive)
             for (let i = 0; i < 12; i++) {
                 placeValueOnScreen("table", ids[i], "$" + two_result_positive[i])
                 placeValueOnScreen("tableunit", ids[i], one_input[i] - two_input[i])
