@@ -403,6 +403,9 @@
                 if (!(input_box.value >= 0)) {
                     input_box.value = "0"
                 }
+                if (input_box.value > 100000) {
+                    input_box.value = "100000"
+                }
                 one_input[i] = input_box.value // This section is taking all of the inputs in step 1 and placing them in the array for calculation in calculateAndUpdateScreenElements()
             };
             for (let i = 0; i < 12; i++) {
@@ -410,7 +413,11 @@
                 if (!(input_box.value >= 0)) {
                     input_box.value = "0"
                 }
+                if (input_box.value > 100000) {
+                    input_box.value = "100000"
+                }
                 two_input[i] = input_box.value
+                
             };
             //alert("Placed Values.")
         }
